@@ -14,16 +14,6 @@ function division(a, b){
     return a/b
 }
 
-function addMultiple(...args){
-    return args.reduce((final, current)=> {
-        return final+current
-    }, 0);
-}
-
-
-
-function multiplyMultiple(...args){
-    return args.reduce((final, current)=> {
-        return final*current
-    }, 1);
+function operate(operator, a, b){
+    return operator(a,b)
 }
