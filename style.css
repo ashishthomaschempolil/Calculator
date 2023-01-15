@@ -45,13 +45,54 @@ body {
 }
 
 button {
+    /* when hovering over the button, use the click icon */
+    cursor: pointer;
     border: 1px solid var(--color-primary);
     line-height: 1.42857143;
     padding: 0.5rem;
     font-size: 2rem;
+    font-family: 'Orbitron', sans-serif;
+    box-shadow: 0 0 0 0.2rem var(--color-quinary);
+}
+
+.main {
+    border: 1px solid black;
+}
+
+.display{
+    display: flex;
+    flex-direction: row;
+    color: var(--color-primary);
+    background-color: var(--color-secondary);
+}
+
+.display #display-screen{
+    font-family: 'Orbitron', sans-serif;
+    background-color: lightgrey;
+    color: black;
+    padding: 1%;
+    text-align: right;
+    font-size: 3rem;
+    width: 90%;
+    border: 1px solid black;
+    box-shadow: 0 0 0 0.2rem var(--color-quinary);
+}
+
+.display .function {
+    background-color: var(--color-quaternary);
+    color: var(--color-primary);
+    font-size: 3rem;
+    width: 10%;
+    border: 1px solid black;
 }
 
 .operator {
     color: var(--color-primary);
     background-color: var(--color-secondary);
+}
+
+.operations-icons {
+    display: inline-grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(5, 1fr);
 }
