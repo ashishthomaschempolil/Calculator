@@ -71,9 +71,32 @@ button {
     flex-direction: row;
     color: var(--color-primary);
     background-color: var(--color-secondary);
+    height: 18vh;
+    width: 80vh;
 }
 
-.display #display-screen{
+.display div{
+    display: block;
+    box-sizing: border-box; /* to make the width of the div to be 100% */
+}
+
+.display .screen{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+    font-family: 'Orbitron', sans-serif;
+    background-color: lightgrey;
+    color: black;
+    padding: 1%;
+    text-align: right;
+    font-size: 3rem;
+    border: 1px solid black;
+    box-shadow: 0 0 0 0.2rem black;
+    width: 90%;
+}
+
+/* .display #display-screen{
     font-family: 'Orbitron', sans-serif;
     background-color: lightgrey;
     color: black;
@@ -83,9 +106,9 @@ button {
     width: 90%;
     border: 1px solid black;
     box-shadow: 0 0 0 0.2rem black;
-}
+} */
 
-.display .function {
+.display #clear {
     background-color: var(--color-quaternary);
     color: var(--color-primary);
     font-size: 3rem;
@@ -116,4 +139,9 @@ button {
 a {
     color: var(--color-primary);
     text-decoration: none;
+}
+
+#clear-screen {
+    color: var(--color-primary);
+    background-color: var(--color-quaternary);
 }
