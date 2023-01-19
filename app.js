@@ -23,34 +23,59 @@ const operatorFunctions = {
     "-": subtract,
     "*": multiply,
     "/": division,
-    "=": 'equals'
+}
+
+function changeCurrentDisplay(value){
+    currentDisplay.textContent = value
+}
+
+function changePreviousDisplay(arr){
+    previousDisplay.textContent = arr.join(' ')
 }
 
 function changeDisplay(value){
-    if (value === "+" || value === "-" || value === "*" || value === "/"){
-        currentDisplay.textContent = value
-        previousResult.push(value)
-    } else if (value === "="){
-        previousResult = [String(currentResult)]
-        previousDisplay.textContent = currentResult
-        currentDisplay.textContent = currentResult
-    } else {
-        if (previousResult.length === 0){
-            previousResult.push(value)
-            previousDisplay.textContent = previousResult.join(' ')
-            currentResult = Number(value)
+    if (value === "="){
+        //push the current display number to the previousResult and update the previosResult, currentResult
+        previousResult.append(currentDisplay.textContent)
+        currentResult = operate(operatorFunctions[previousResult[previousResult.length - 1]], currentResult, Number(value))
+        changeCurrentDisplay(currentResult)
+        changePreviousDisplay(previousResult)
+    }
+    else if (value in operatorFunctions){
+        // check for base case that is make sure the first item in previousResult is number and second is the operator
+        if (previousResult[previousResult.length - 1] in operatorFunctions){
+            previousResult.pop()
+        }
+        else if(previousResult.length>2){
+            
+            currentResult = operate(
+                operatorFunctions[previousResult[previousResult.length-2]], 
+                currentResult, 
+                Number(previousResult[previousResult.length-1])
+                )
+            changeCurrentDisplay(currentResult);
+            previousResult.append(value);
+            changePreviousDisplay(previousResult);
         }
         else {
-            currentResult = operate(operatorFunctions[previousResult[previousResult.length-1]], currentResult, Number(value))
-            currentDisplay.textContent = currentResult
-            previousResult.push(value)
-            previousDisplay.textContent = previousResult.join(' ')
+            currentResult = Number(currentDisplay.textContent)
         }
+    }
+    else { //if its a number
+        //update currentDisplay's textContent
+        currentDisplay.textContent += value
     }
 }
 
 function clearOneDisplay(){
-    
+    currentDisplay.textContent = currentDisplay.textContent.slice(0,-1)
+}
+
+function clearDisplay(){
+    currentResult = 0
+    previousResult = []
+    changeCurrentDisplay("")
+    changePreviousDisplay("")
 }
 
 let currentResult = 0, previousResult = [];
