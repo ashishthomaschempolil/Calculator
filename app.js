@@ -1,5 +1,3 @@
-currentDisplay = ""
-
 function add(a,b){
     return a+b
 }
@@ -20,61 +18,57 @@ function operate(operator, a, b){
     return operator(a,b)
 }
 
-function evaluate(result){
-    if (result.includes("+") && result.split("+").length > 2){
-        let numbers = result.split("+")
-        let a = Number(numbers[0])
-        let b = Number(numbers[1])
-        return operate(add, a, b), Number[-1]
-    }
-    else if (result.includes("-")&& result.split("-").length > 2){
-        let numbers = result.split("-")
-        let a = Number(numbers[0])
-        let b = Number(numbers[1])
-        console.log(operate(subtract, a, b))
-        return operate(subtract, a, b), Number[-1]
-    }
-    else if (result.includes("*") && result.split("*").length > 2){
-        let numbers = result.split("*")
-        let a = Number(numbers[0])
-        let b = Number(numbers[1])
-        return operate(multiply, a, b), Number[-1]
-    }
-    else if (result.includes("/") && result.split("/").length > 2){
-        let numbers = result.split("/")
-        let a = Number(numbers[0])
-        let b = Number(numbers[1])
-        return operate(division, a, b), Number[-1]
-    }
+const operatorFunctions = {
+    "+": add,
+    "-": subtract,
+    "*": multiply,
+    "/": division,
+    "=": 'equals'
 }
 
-function changeDisplay(displayValue){
-    currentDisplay += displayValue
-    document.getElementById("display-screen").value = currentDisplay
-}
-
-function clearDisplay(){
-    currentDisplay = ""
-    document.getElementById("display-screen").value = currentDisplay
+function changeDisplay(value){
+    if (value === "+" || value === "-" || value === "*" || value === "/"){
+        currentDisplay.textContent = value
+        previousResult.push(value)
+    } else if (value === "="){
+        previousResult = [String(currentResult)]
+        previousDisplay.textContent = currentResult
+        currentDisplay.textContent = currentResult
+    } else {
+        if (previousResult.length === 0){
+            previousResult.push(value)
+            previousDisplay.textContent = previousResult.join(' ')
+            currentResult = Number(value)
+        }
+        else {
+            currentResult = operate(operatorFunctions[previousResult[previousResult.length-1]], currentResult, Number(value))
+            currentDisplay.textContent = currentResult
+            previousResult.push(value)
+            previousDisplay.textContent = previousResult.join(' ')
+        }
+    }
 }
 
 function clearOneDisplay(){
-    currentDisplay = currentDisplay.slice(0, -1)
-    document.getElementById("display-screen").value = currentDisplay
+    
 }
+
+let currentResult = 0, previousResult = [];
+
 
 const numbers = document.querySelectorAll(".number")
 const operators = document.querySelectorAll(".operator")
 const clearScreen = document.querySelector("#clear-screen")
 const clearOne = document.querySelector("#clear")
-const screen = document.getElementById("display-screen")
+const previousDisplay = document.getElementById("previous-results")
+const currentDisplay = document.getElementById("current-results")
 
 numbers.forEach((number) => {
     number.addEventListener("click", () => {
         changeDisplay(number.value)
-    })
-}
+    }
 )
+})
 
 operators.forEach((operator) => {
     operator.addEventListener("click", () => {

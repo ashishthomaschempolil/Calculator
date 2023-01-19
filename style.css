@@ -66,6 +66,12 @@ button {
     box-shadow: 0 0 0 0.2rem black;
 }
 
+button:hover {
+    /* RAISE ON HOVER FROM FLAT */
+    box-shadow: 0 0 0 0.2rem var(--color-tertiary);
+    transform: translateY(-0.2rem);
+}
+
 .display{
     display: flex;
     flex-direction: row;
@@ -96,24 +102,21 @@ button {
     width: 90%;
 }
 
-/* .display #display-screen{
-    font-family: 'Orbitron', sans-serif;
-    background-color: lightgrey;
-    color: black;
-    padding: 1%;
-    text-align: right;
-    font-size: 3rem;
-    width: 90%;
-    border: 1px solid black;
-    box-shadow: 0 0 0 0.2rem black;
-} */
+#previous-results {
+    font-size: 2rem;
+    height: 25%;
+}
 
-.display #clear {
+.display .function {
     background-color: var(--color-quaternary);
     color: var(--color-primary);
     font-size: 3rem;
     width: 10%;
     border: 1px solid black;
+}
+
+.display #equals {
+    background-color: lightgreen;
 }
 
 /* display like grid and also width and height of the buttons to be fit the parent div */
