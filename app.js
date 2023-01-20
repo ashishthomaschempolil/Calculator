@@ -11,6 +11,11 @@ function multiply(a, b){
 }
 
 function division(a, b){
+    if (b === 0){
+        alert("Cannot divide by zero")
+        clearDisplay()
+        return 0
+    }
     return a/b
 }
 
@@ -47,7 +52,7 @@ function changeDisplay(value){
         changeCurrentDisplay(currentResult)
         currentResultFlag = 1;
         changePreviousDisplay(previousResult)
-        previousResult = [];
+        previousResult = [currentResult];
         }
         else {
             //do nothing when a person presses the equal button without any expression
@@ -62,8 +67,7 @@ function changeDisplay(value){
             previousResult.push(value)
         }
         else{
-            number = currentDisplay.textContent
-            previousResult.push(number)
+            previousResult.push(currentDisplay.textContent)
             previousResult.push(value)
         }
 
@@ -74,13 +78,13 @@ function changeDisplay(value){
         }
         else{
             if (previousResult.length == 2){
-                currentResult = Number(number)
+                currentResult = Number(currentDisplay.textContent)
             }
             else if (previousResult.length > 2){
                 currentResult = operate(
                     operatorFunctions[previousResult[previousResult.length - 3]],
                     currentResult,
-                    Number(number)
+                    Number(currentDisplay.textContent)
                 )
             }
             //if the length of the previousResult.length>3 then calculate the result
@@ -94,7 +98,9 @@ function changeDisplay(value){
     else { //if its a number
         //update currentDisplay's textContent
         if (currentNumberFlag === 1){ 
+            if (currentDisplay.textContent.length <= 10){ //limit the number of characters in the currentDisplay
             currentDisplay.textContent += value
+            }
         }
         else{//overwrote the result of the expression with the new number
             currentDisplay.textContent = value
@@ -113,6 +119,8 @@ function clearDisplay(){
     previousResult = []
     changeCurrentDisplay("")
     changePreviousDisplay(previousResult)
+    currentResultFlag = 0;
+    currentNumberFlag = 0;
 }
 
 let currentResult = 0,  //variable to store the current result
@@ -150,13 +158,23 @@ clearOne.addEventListener("click", () => {
     clearOneDisplay()
 })
 
-// document.addEventListener("keydown", (e) => {
-//     if (e.key === "="){
-//         currentDisplay = String(evaluate(currentDisplay))
-//         document.getElementById("display-screen").value = currentDisplay
-//     }
-// }
-// )
-
-// evaluate the currentDiplay if there are more than 2 numbers and an operator
-// if there are more than 2 numbers and an operator, evaluate the currentDisplay
+document.addEventListener("keydown", (e) => {
+    if (e.key === "Backspace"){
+        clearOneDisplay()
+    }
+    else if (e.key === "Escape"){
+        clearDisplay()
+    }
+    else if (e.key === "="){
+        changeDisplay("=")
+    }
+    else if (e.key in operatorFunctions){
+        changeDisplay(e.key)
+    }
+    else if (e.key in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]){
+        changeDisplay(e.key)
+    }
+    else if (e.key === "."){
+        changeDisplay(".")
+    }
+})

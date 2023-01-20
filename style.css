@@ -28,6 +28,7 @@ body {
     color: var(--color-primary);
     padding: 1rem;
     text-align: center;
+    font-size: x-large;
 }
 
 .footer {
@@ -45,6 +46,8 @@ body {
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    height: 100%;
+    width: 100%;
 }
 
 .calculator {
@@ -135,6 +138,11 @@ button:hover {
 
 /* assign different colors to the numbers */
 .numbers {
+    color: var(--color-primary);
+    background-color: var(--color-secondary);
+}
+
+#dot {
     color: var(--color-primary);
     background-color: var(--color-secondary);
 }
