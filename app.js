@@ -98,7 +98,12 @@ function changeDisplay(value){
         //update currentDisplay's textContent
         if (currentNumberFlag === 1){ 
             if (currentDisplay.textContent.length <= 10){ //limit the number of characters in the currentDisplay
-            currentDisplay.textContent += value
+                if (value === "." && currentDisplay.textContent.includes(".")){
+                    //do nothing if the currentDisplay already has a decimal point
+                }
+                else {
+                    currentDisplay.textContent += value
+                }
             }
         }
         else{//overwrote the result of the expression with the new number
