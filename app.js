@@ -37,6 +37,7 @@ function changeDisplay(value){
     
     if (value === "="){
         //push the current display number to the previousResult and update the previosResult, currentResult
+        if (previousResult.length > 1){
         previousResult.push(currentDisplay.textContent)
         currentResult = operate(
             operatorFunctions[previousResult[previousResult.length - 2]],
@@ -44,47 +45,61 @@ function changeDisplay(value){
             Number(currentDisplay.textContent)
         )
         changeCurrentDisplay(currentResult)
+        currentResultFlag = 1;
         changePreviousDisplay(previousResult)
-        previousResult = []
+        previousResult = [];
+        }
+        else {
+            //do nothing when a person presses the equal button without any expression
+            //or if there is only just 1 number
+        }
+
     }
     else if (value in operatorFunctions){
         // check for base case that is make sure the first item in previousResult is number and second is the operator
-        // if value in operatorFunctions then 
-        if (previousResult[previousResult.length - 1] in operatorFunctions){
-            previousResult.pop()
+        // if value in operatorFunctions then
+        if (currentResultFlag){
             previousResult.push(value)
-            changePreviousDisplay(previousResult)
         }
         else{
             number = currentDisplay.textContent
-            currentDisplay.textContent = ""
             previousResult.push(number)
-            if (previousResult.length == 1){
+            previousResult.push(value)
+        }
+
+
+        if (previousResult[previousResult.length - 2] in operatorFunctions){ //if the last item in previousResult is an operator
+            previousResult.splice(previousResult.length - 2, 1) //remove the last operator or the second last element in the array
+            changePreviousDisplay(previousResult)
+        }
+        else{
+            if (previousResult.length == 2){
                 currentResult = Number(number)
             }
             else if (previousResult.length > 2){
                 currentResult = operate(
-                    operatorFunctions[previousResult[previousResult.length - 2]],
-                    Number(number),
-                    currentResult
+                    operatorFunctions[previousResult[previousResult.length - 3]],
+                    currentResult,
+                    Number(number)
                 )
             }
-            previousResult.push(value)
             //if the length of the previousResult.length>3 then calculate the result
             changeCurrentDisplay(currentResult) // to show the result of the expression in currentDisplay
-            flag = 0 //flag variable to replace the number value with new inputted number
+            currentResultFlag = 1; // to identify if the currentDisplay is the result of the expression
+            currentNumberFlag = 0 //Flag variable to replace the number value with new inputted number
             changePreviousDisplay(previousResult) // to show the expression in previousDisplay
         }
 
     }
     else { //if its a number
         //update currentDisplay's textContent
-        if (flag === 1){ 
+        if (currentNumberFlag === 1){ 
             currentDisplay.textContent += value
         }
         else{//overwrote the result of the expression with the new number
             currentDisplay.textContent = value
-            flag = 1;
+            currentNumberFlag = 1;
+            currentResultFlag = 0;
         }
     }
 }
@@ -100,7 +115,10 @@ function clearDisplay(){
     changePreviousDisplay(previousResult)
 }
 
-let currentResult = 0, previousResult = [], flag = 0;
+let currentResult = 0,  //variable to store the current result
+    previousResult = [], //array to store the previous results
+    currentNumberFlag = 0, //flag variable to replace the number value with new inputted number
+    currentResultFlag = 0; //flag variable to identify if the currentDisplay is the result of the expression
 
 
 const numbers = document.querySelectorAll(".number")
